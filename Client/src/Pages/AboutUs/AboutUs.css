@@ -1,0 +1,24 @@
+.AboutUs {
+    position: relative;
+    background-color: #FBB13C;
+    height: calc(100vh);
+}
+
+.AboutUs-container {
+    position: absolute;
+    top: 80px; left: 0; bottom: 0; right: 0;
+    margin: auto;
+    height: fit-content;
+    background-color: white;
+    border: 1px solid black;
+}
+.AboutUs-container p {
+    padding: 0 10%;
+    font-size: 24px;
+}
+
+@media only screen and (min-height: 800px) {
+    .AboutUs-container {
+        width: 40%;
+    }
+}
