@@ -31,5 +31,5 @@ module.exports = function(io) {
     });
   });
 
-  console.log(chalk.bold.white(`Socket Server listening on port`) + chalk.bold.magenta(port));
+  console.log(chalk.bold.white(`Socket Server listening on port `) + chalk.bold.magenta(port));
 }

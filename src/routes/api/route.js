@@ -18,7 +18,7 @@ module.exports = function(app) {
   app.get('/user', function(req, res) {
     let user = req.query.user;
 
-    db.query("SELECT scores.firstName, scores.lastName, scores.matchDate, scores.matchTime, scores.score FROM freedb_scribingdb.scores scores, freedb_scribingdb.users users WHERE users.userName = '" + user + "' ORDER BY matchDate DESC", (err,result)=>{
+    db.query("SELECT scores.firstName, scores.lastName, scores.matchDate, scores.matchTime, scores.score FROM freedb_scribingdb.scores scores, freedb_scribingdb.users users WHERE users.firstName = scores.firstName AND users.userName = '" + user + "' ORDER BY matchDate DESC", (err,result)=>{
       if(err) {
         console.log(err);
       }
@@ -29,7 +29,7 @@ module.exports = function(app) {
   app.get('/pastMatch', function(req, res) {
     let user = req.query.user;
 
-    db.query("SELECT scores.matchDate, scores.matchTime, scores.score FROM freedb_scribingdb.scores scores, freedb_scribingdb.users users WHERE users.userName = '" + user + "' ORDER BY matchDate DESC LIMIT 10", (err,result)=>{
+    db.query("SELECT scores.matchDate, scores.matchTime, scores.score FROM freedb_scribingdb.scores scores, freedb_scribingdb.users users WHERE users.firstName = scores.firstName AND users.userName = '" + user + "' ORDER BY matchDate DESC LIMIT 10", (err,result)=>{
       if(err) {
         console.log(err);
       }
