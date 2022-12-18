@@ -5,7 +5,7 @@ export default function LoadingBar(props) {
   const [percentage, setPercentage] = useState(0);
 
   useEffect(() => {
-    setPercentage(props.loadingData)
+    setPercentage(props.loadingData);
   },[props.loadingData]);
 
   return(

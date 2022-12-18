@@ -15,7 +15,7 @@ export default function Multiplayer(props) {
   const [amountPlayers, setAmountPlayers] = useState(0);
 
   useEffect(() => {
-    setUser(props.parentUser)
+    setUser(props.parentUser);
   }, [props]);
 
   useEffect(() => {
@@ -24,20 +24,21 @@ export default function Multiplayer(props) {
 
   useEffect(() => {
     socket.on('message', (message) => {
-      if(!exists(currentPlayers,message[0])){
-        var temp = currentPlayers
+      if (!exists(currentPlayers, message[0])) {
+        var temp = currentPlayers;
         temp.push(message);
         setCurrentPlayers(temp);
-        setAmountPlayers(temp.length)
-      }else{
-        var temp = currentPlayers.length
-        for(var k = 0; k < temp; k++){
-            if(currentPlayers[k][0] == message[0]){
-                currentPlayers[k][1] = message[1];
-            }
+        setAmountPlayers(temp.length);
+      }
+      else {
+        var temp = currentPlayers.length;
+        for (var k = 0; k < temp; k++) {
+          if (currentPlayers[k][0] == message[0]) {
+            currentPlayers[k][1] = message[1];
+          }
         }
       }
-      console.log(currentPlayers)
+      console.log(currentPlayers);
     });
     socket.emit('chatMessage', usersPercent);
   }, [usersPercent]);
@@ -52,18 +53,18 @@ export default function Multiplayer(props) {
 
   useEffect(() => {
     var temp = 0;
-    if(currentPlayers.length > temp){
-      temp = currentPlayers.length
-      console.log("new player")
-      console.log(currentPlayers)
-      console.log(currentPlayers.length)
+    if (currentPlayers.length > temp) {
+      temp = currentPlayers.length;
+      console.log("new player");
+      console.log(currentPlayers);
+      console.log(currentPlayers.length);
     }
   }, [currentPlayers]);
 
 
-  function getLoadingBars(){
-    let temp = []
-    for(var i = 0; i < amountPlayers; i++){
+  function getLoadingBars() {
+    let temp = [];
+    for (var i = 0; i < amountPlayers; i++) {
       temp.push(<LoadingBar userName={currentPlayers[i][0]} loadingData={currentPlayers[i][1]}/>)
     }
     return temp;

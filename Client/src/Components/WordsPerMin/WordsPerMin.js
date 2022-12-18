@@ -29,29 +29,27 @@ export default function WordsPerMin(props) {
         break;
       }
     }
-        return {
-          matchedPart: textToType.slice(0, endIndexMatch),
-          unmatchedPart: textToType.slice(endIndexMatch)
-      }
-  }, [typedText]); //react hook to update UI if these two variables change
-
+    return {
+      matchedPart: textToType.slice(0, endIndexMatch),
+      unmatchedPart: textToType.slice(endIndexMatch)
+    }
+  }, [typedText]);
 
   useEffect(() => {
     let interval = null;
-    if(timerOn){
+    if (timerOn) {
       interval = setInterval(() => {
         setTime(prevTime => prevTime + 10);
       }, 10);
-    }else{
+    }
+    else {
       clearInterval(interval);
     }
-
     return () => clearInterval(interval);
-  },[timerOn]);
+  }, [timerOn]);
 
-
-  function handleFocus(){
-    setTimeout(function () {
+  function handleFocus() {
+    setTimeout(function() {
       searchInput.current.focus();
     }, 1);
   }
@@ -74,28 +72,48 @@ export default function WordsPerMin(props) {
   };
 
   useEffect(() => {
-    if (!(test.length >= (textToType.split("").length))) {
+    if ( !(test.split() == textToType.split() && test.split(" ").length == textToType.split(" ").length) ) {
+      //console.log("test: " + test.split() + "\ntextToType: " + textToType.split());
       let seconds = Math.floor((time / 1000) % 60);
       setWpm(Math.floor(textToType.split(" ").length * 60 / seconds));
       setTest(typedText);
     }
   }, [parts, textToType, time]);
 
+  function checkIfTheSame(concatTest) {
+    let temp = [];
+    for (let i = 0; i < test.length; i++) {
+      temp += textToType[i];
+    }
+
+    //console.log("temp: " + temp + " concatTest: " + concatTest.join(""));
+    if (temp == concatTest.join("")) {
+      props.setUsersPercent(Math.floor(100 * (temp.length / textToType.length)));
+    }
+  }
 
   useEffect(() => {
-    props.setUsersPercent(Math.floor(100 * test.length/textToType.length));
-    if(test.length === (textToType.split("").length)){
-      props.setUsersPercent(Math.floor(100 * test.length/textToType.length));
+    /* Multiplayer tab */
+    let concatTest = [];
+    for (let i = 0; i < textToType.length; i++) {
+      if (test[i] == textToType[i]) {
+        concatTest.push(test[i]);
+        checkIfTheSame(concatTest);
+      }
+    }
+
+    /* Singleplayer tab */
+    //console.log("test: " + test + "\ntextToType: " + textToType);
+    if (test.length == textToType.split("").length && test == textToType) {
+      props.setUsersPercent(Math.floor(100 * (test.length / textToType.length)));
       setTimeOn(false);
       setGameOver(true);
       newScorePost();
-  }
-
+    }
   }, [test]);
 
-  function newScorePost(){
+  function newScorePost() {
     props.setScore(wpm)
-
   };
 
   const disablePaste = (e) => {
@@ -134,7 +152,8 @@ export default function WordsPerMin(props) {
         <div className="full-sentence"><i>{chosentext}</i></div>
       </div>
     );
-  } else {
+  }
+  else {
     return (
       null
     );

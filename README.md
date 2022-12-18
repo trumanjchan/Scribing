@@ -10,7 +10,7 @@
 ### Run This Program Locally
 1. `yarn install`
 2. `yarn start`
-Then navigate to *http://localhost:5050/* on your browser.
+3. Then navigate to *http://localhost:5050/* on your browser.<br>
 Note: You won't be able to sign up, login, or see any tables with values because the dotenv file was not pushed.
 
 # Scribing
