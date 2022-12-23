@@ -1,23 +1,33 @@
 .Matches {
-    background-color: #08B2E3;
-    width: 100%;
-    height: calc(100vh - 101px);
-    border-right: 1px solid;
-    display: inline-block;
-    z-index: 1;
-    overflow: auto;
+    width: 20%;
+    border-right: 1px solid black;
+    position: relative;
+    overflow-y: auto;
 }
+
 .Matches .title {
     font-weight: bold;
     text-align: center;
-    font-size: 22px;
-    padding: 8% 3%;
+    font-size: 25px;
+    padding: 8% 3% 4% 3%;
 }
-.Matches .para {
+.Matches .alert {
+    position: absolute;
+    height: fit-content;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
     text-align: center;
-    font-size: 15px;
-    padding: 8% 3%;
+    font-size: 20px;
+    padding: 0% 5%;
 }
-::-webkit-scrollbar {
-    width: 0;
+
+
+@media screen and (max-width: 768px) {
+    .Matches .title {
+        font-size: 16px;
+    }
+    .Matches .alert {
+        font-size: 15px;
+    }
 }

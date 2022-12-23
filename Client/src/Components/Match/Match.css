@@ -1,44 +1,51 @@
 .Match {
-    background-color: #08B2E3;
     width: 100%;
-    border-right: 1px solid;
-    display: inline-block;
-    z-index: 1;
     padding: 10px 0px 10px 0px;
 }
 
-.Match .container {
-    background-color: white;
+.Match .outercontainer {
     margin: 0 auto;
     width: 75%;
     height: 20%;
     border: 1px solid black;
-    border-radius: 30px;
-    font-size: 25px;
+    border-radius: 20px;
     text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
 }
-.Match .container .wpm {
+.Match .outercontainer .innercontainer {
+    padding: 5% 0%;
+}
+.Match .outercontainer .innercontainer .date {
+    font-size: 20px;
+}
+.Match .outercontainer .innercontainer .time {
+    font-size: 20px;
+}
+.Match .outercontainer .innercontainer .wpm {
     font-size: 30px;
 }
 
-/* Match container and Date div */
-@media only screen and (min-width: 0px) and (max-width: 950px) {
-    .Match .container {
-        border-radius: 18px;
+
+@media screen and (max-width: 768px) {
+    .Match .outercontainer {
+        border-radius: 15px;
     }
-    .Match .container .date {
-        font-size: 12px;
+    .Match .outercontainer .innercontainer .date {
+        font-size: 10px;
+    }
+    .Match .outercontainer .innercontainer .time {
+        font-size: 10px;
+    }
+    .Match .outercontainer .innercontainer .wpm {
+        font-size: 25px;
     }
 }
-/* Text inside container */
-@media only screen and (max-width: 1200px) {
-    .Match .container {
-        font-size: 20px;
-    }
-    .Match .container .wpm {
-        font-size: 25px;
+
+@media screen and (max-width: 640px) {
+    .Match .outercontainer {
+        width: 80%;
+        border-radius: 0px;
     }
 }

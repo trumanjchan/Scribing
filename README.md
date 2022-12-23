@@ -19,4 +19,4 @@ Scribing is a website application similar to 10fastfingers where users can test 
 
 [Shivanshu Gupta](https://www.linkedin.com/in/shiv248/) and [Truman Chan](https://www.linkedin.com/in/trumanjfchan/) created this web app for their University of California, Merced Full Stack Computing final course project back in Fall 2021.
 
-It was done with the power of NodeJS in React leveraging statefullness and hooks for the frontend, served on an Express + Socket.io backend, connected to a FreeDB mySQL network relational database, and hosted with on Fly.io.
+It was done with the power of NodeJS in React leveraging statefullness and hooks for the frontend, served on an Express + Socket.io backend, connected to a FreeDB mySQL network relational database, and hosted on Fly.io.

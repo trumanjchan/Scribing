@@ -1,6 +1,6 @@
 .Multiplayer {
     position: relative;
-    background-color: #FBB13C;
+    background-image: linear-gradient(#DCDBD7, #F1B26C, #F3E8D5, #04A3A4, #017D8E);
     height: calc(100vh);
 }
 

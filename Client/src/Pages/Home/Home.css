@@ -1,20 +1,32 @@
 .Home {
-    position: relative;
-    background-color: #FBB13C;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    overflow: hidden;
+    background-image: linear-gradient(#DCDBD7, #F1B26C, #F3E8D5, #04A3A4, #017D8E);
 }
-.Home .grid {
-    display: grid;
-    grid-template-columns: 20% auto;
+.Home .flexcontainer {
+    height: calc(100% - 81px);
+    display: flex;
+    flex-direction: row;
+}
+
+.Home .typingcontainer {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-y: auto;
+}
+.Home .typingcontainer .scribingslogan {
+    text-align: right;
+    color: white;
+    padding: 0% 2% 1% 0%;
 }
 
 
-.Home-container {
-    position: relative;
-}
-.Home-container .website-description {
-    position: absolute;
-    bottom: 0px;
-    right: 10px;
-    font-weight: normal;
-    font-size: 20px;
+@media screen and (max-width: 768px) {
+    .Home .flexcontainer {
+        height: calc(100% - 102px);
+    }
 }

@@ -11,39 +11,36 @@ function Home(props) {
   const [percent, setUsersPercent] = useState(0);
 
   useEffect(() => {
-    if(score > 0){
-        newScorePost();
-      }
-      }, [score]);
+    if (score > 0) {
+      newScorePost();
+    }
+  }, [score]);
 
-    function newScorePost(){
-      axios.post('/newScore', {
-        userName: props.parentUser,
-        score: score,
-        date: moment().format('YYYY-MM-DD HH:mm:ss'),
-        time: moment().format('h:mm a')
-      })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-
-    };
-
+  function newScorePost() {
+    axios.post('/newScore', {
+      userName: props.parentUser,
+      score: score,
+      date: moment().format('YYYY-MM-DD HH:mm:ss'),
+      time: moment().format('h:mm a')
+    })
+    .then(function(response) {
+      console.log(response);
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+  };
 
   return (
     <div className="Home">
       <Navbar fName={props.parentUser}/>
-      <div className="grid">
+      <div className="flexcontainer">
         <Matches uName={props.parentUser}/>
-        <div className="Home-container">
+        <div className="typingcontainer">
           <WordsPerMin setScore={setScore} setUsersPercent={setUsersPercent}/>
-          <h1 className="website-description">Scribing one word at a time!</h1>
+          <div className="scribingslogan">Scribing one word at a time!</div>
         </div>
       </div>
-
     </div>
   );
 }

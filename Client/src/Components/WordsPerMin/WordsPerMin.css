@@ -1,54 +1,39 @@
 .WPM {
     width: 100%;
 }
-.WPM input {
-    display: block;
-    margin: 0 auto;
-    margin-top: 1%;
-    width: 53%;
-    height: 7%;
-    border: 5px solid #FFC400;
-    font-size: 32px;
-    padding-left: 10px;
-    padding-right: 10px;
-    letter-spacing: 2px;
+.WPM .maincontainer {
+    width: 80%;
+    margin: 4% auto;
 }
-.WPM .information {
+
+.WPM .maincontainer .clockandbutton {
     width: fit-content;
-    margin: 0% auto 0% 22.5%;
-    font-size: 20px;
 }
-.WPM .information .clock {
+.WPM .maincontainer .clockandbutton .clock {
+    display: flex;
+    justify-content: center;
     background-color: red;
     color: white;
-    padding: 0 5%;
-    width: fit-content;
+    width: 100%;
     font-size: 20px;
 }
-.WPM .information .clock .inline {
+.WPM .maincontainer .clockandbutton .clock .inline {
     display: inline;
 }
-.WPM .information .block {
-    display: block;
+.WPM .maincontainer .clockandbutton button {
     font-size: 20px;
-}
-.WPM .information:nth-child(1) {
-    width: fit-content;
-    margin: 3% auto 0% 22.5%;
-}
-.WPM .information button {
     background-color: rgb(103, 255, 129);
     font-weight: bold;
-    font-size: 20px;
+    width: 100%;
+    border: 2px solid black;
 }
-.WPM .display {
-    background-color: white;
-    margin: 3% auto 0% auto;
-    width: 55%;
+
+.WPM .maincontainer .display {
     border: 1px solid;
+    margin: 1% 0%;
 }
-.WPM .display .text {
-    font-size: 30px;
+.WPM .maincontainer .display .scrambledsentence {
+    font-size: 28px;
     letter-spacing: 2px;
     padding: 1% 2% 1% 2%;
     -webkit-touch-callout: none; /* iOS Safari */
@@ -58,7 +43,27 @@
           -ms-user-select: none; /* Internet Explorer/Edge */
               user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
 }
-.WPM .full-sentence {
-    margin: 3% 22.5% 0% 22.5%;
+.WPM .maincontainer .display .scrambledsentence .matchedpart {
+    -webkit-text-stroke: 1px black;
+    background-color: white;
+}
+
+.WPM .maincontainer .typingspeedinfo {
+    margin-top: 1%;
+}
+.WPM .maincontainer .typingfield {
+    display: flex;
+}
+.WPM .maincontainer .typingfield input {
+    flex: auto;
+    border: 5px solid #FFC400;
+    font-size: 25px;
+    letter-spacing: 2px;
+    width: 100%;
+}
+
+.WPM .maincontainer .fullsentence {
+    width: 80%;
+    margin: 4% auto 2% auto;
     font-size: 18px;
 }

@@ -19,7 +19,6 @@ export default function WordsPerMin(props) {
   const searchInput = useRef(null);
   const [attemptReady, setAttemptReady] = useState(true);
 
-
   const parts = useMemo(() => {
     const splitTextToType = textToType.split("");
     let endIndexMatch = 0;
@@ -120,36 +119,37 @@ export default function WordsPerMin(props) {
     e.preventDefault();
   };
 
-
   if (parts.unmatchedPart.length >= 0) {
     return (
       <div className="WPM">
-        <div className="information">
-          <div className="clock">
-            <div className="inline">{("0" + Math.floor((time / 1000) % 60)).slice(-2)}:</div>
-            <div className="inline">{("0" + Math.floor((time / 100) % 60)).slice(-2)}</div>
+        <div className="maincontainer">
+          <div className="clockandbutton">
+            <div className="clock">
+              <div className="inline">{("0" + Math.floor((time / 1000) % 60)).slice(-2)}:</div>
+              <div className="inline">{("0" + Math.floor((time / 100) % 60)).slice(-2)}</div>
+            </div>
+            {attemptReady ? <button onClick={start}>Start</button> : <button onClick={restart}>Restart</button>}
           </div>
-          {attemptReady ? <button className="block" onClick={start}>Start</button> : <button className="block" onClick={restart}>Restart</button>}
-        </div>
 
-        <div className="display">
-          <div className="text">
-            <b>{parts.matchedPart}</b>
-            {parts.unmatchedPart}
+          <div className="display">
+            <div className="scrambledsentence">
+              <span className="matchedpart">{parts.matchedPart}</span>
+              {parts.unmatchedPart}
+            </div>
           </div>
-        </div>
 
-        {!timerOn ? <div className="information">
-          Your words per minute is {wpm}
-          </div> : <input
-          onPaste={disablePaste}
-          ref={searchInput}
-          disabled={gameOver}
-          value={typedText}
-          onChange={(e) => setTypedText(e.target.value)}
-        />}
-        {timerOn ? <div className="information">Your current WPM: {wpm}</div> : null}
-        <div className="full-sentence"><i>{chosentext}</i></div>
+          {!timerOn ? <div className="typingspeedinfo">Your words per minute is <b>{wpm}</b></div> : <div className="typingfield">
+            <input
+              onPaste={disablePaste}
+              ref={searchInput}
+              disabled={gameOver}
+              value={typedText}
+              onChange={(e) => setTypedText(e.target.value)}
+            /></div>}
+          {timerOn ? <div className="typingspeedinfo">Your current WPM: <b>{wpm}</b></div> : null}
+
+          <div className="fullsentence"><i>{chosentext}</i></div>
+        </div>
       </div>
     );
   }

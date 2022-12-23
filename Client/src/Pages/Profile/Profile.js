@@ -26,57 +26,57 @@ export default function Profile(props) {
     setProfileMatches(parseNameDateTime(matchResponse));
   }, [matchResponse]);
 
-  function parseNameDateTime(data){
-    if(data.length > 0){
+  function parseNameDateTime(data) {
+    if (data.length > 0) {
       setFirstName(data[0].firstName);
       setLastName(data[0].lastName);
-      let resultList = []
+      let resultList = [];
       var topScore = 0;
-      for(var i = 0; i < data.length; i++){
-        if(data[i].score > topScore){
-          topScore = data[i].score
+      for (var i = 0; i < data.length; i++) {
+        if (data[i].score > topScore) {
+          topScore = data[i].score;
         }
-        resultList.push([data[i].matchDate.slice(0,10), data[i].matchTime, data[i].score])
+        resultList.push([data[i].matchDate.slice(0,10), data[i].matchTime, data[i].score]);
       }
       setTopWPM(topScore);
-      return resultList
+      return resultList;
     }
   }
 
-  function getUserInfo(ign){
+  function getUserInfo(ign) {
     axios.get('/user', {
-    params: {
-      user: ign
-    }
-  })
-    .then(function (response) {
+      params: {
+        user: ign
+      }
+    })
+    .then(function(response) {
       let res = response.data;
-      console.log(res)
+      console.log(res);
       setMatchResponse(res);
     }.bind(this))
-    .catch(function (error) {
+    .catch(function(error) {
       console.log(error);
     });
   }
 
-    return (
-      <div className="Profile">
-        <Navbar fName={props.parentUser}/>
-        <div className="Profile-container">
-          <div className="display">
-            <div className='profileinfo'>
-              <div className='picture'>
-                <img alt="Mime" src={MIME}/>
-              </div>
-              <div className='info'>
-                <div>Name: {fName + " " + lName}</div>
-                <div>IGN: {uName}</div>
-                <div>Highest WPM: {topWPM}</div>
-              </div>
+  return (
+    <div className="Profile">
+      <Navbar fName={props.parentUser}/>
+      <div className="Profile-container">
+        <div className="display">
+          <div className='profileinfo'>
+            <div className='picture'>
+              <img alt="Mime" src={MIME}/>
             </div>
-            <TableMaker data={profileMatches} title={profileMatchTitle}/>
+            <div className='info'>
+              <div>Name: {fName + " " + lName}</div>
+              <div>Display name: {uName}</div>
+              <div>Highest WPM: {topWPM}</div>
+            </div>
           </div>
+          <TableMaker data={profileMatches} title={profileMatchTitle}/>
         </div>
       </div>
-    );
+    </div>
+  );
 }
