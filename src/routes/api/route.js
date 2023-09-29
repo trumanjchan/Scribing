@@ -28,6 +28,7 @@ module.exports = function(app) {
 
   app.get('/pastMatch', function(req, res) {
     let user = req.query.user;
+    console.log("req.query.user: " + user);
 
     db.query("SELECT scores.matchDate, scores.matchTime, scores.score FROM freedb_scribingdb.scores scores, freedb_scribingdb.users users WHERE users.firstName = scores.firstName AND users.userName = '" + user + "' ORDER BY matchDate DESC LIMIT 10", (err,result)=>{
       if(err) {
@@ -58,7 +59,7 @@ module.exports = function(app) {
     const attemptPass = req.body.password;
     const hash = new Keccak(256);
 
-    db.query("SELECT password FROM freedb_scribingdb.users where userName = '" + username + "'", (err,result)=>{
+    db.query("SELECT password FROM freedb_scribingdb.users WHERE userName = '" + username + "'", (err,result)=>{
       if(err) {
         console.log(err);
       }

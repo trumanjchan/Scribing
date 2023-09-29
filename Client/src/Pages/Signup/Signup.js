@@ -51,28 +51,31 @@ class Signup extends React.Component {
       }
 
 
-    handleSubmit(event) {
-      axios.post('/signUpUser', {
-        firstName: this.state.fName,
-        lastName: this.state.lName,
-        userName: this.state.uName,
-        password: this.state.pass
-      })
-      .then(function (response) {
-        let res = response.data;
-        if(res.result === "access granted!"){
-          localStorage.setItem('jswtoken', res.jwtoken);
-          this.props.setParentUser(res.userName);
-          this.props.setParentName([this.fName,this.lName]);
-          this.setState({
-            redirect: true
-          })
-        }
-      }.bind(this))
-      .catch(function (error) {
-        console.log(error);
-      });
-      event.preventDefault();
+    handleSubmit(e) {
+      e.preventDefault();
+
+      if (this.state.fName != '' && this.state.lName != '' && this.state.uName != '' && this.state.pass != '' && this.state.fName.length > 0 && this.state.lName.length > 0 && this.state.uName.length > 0 && this.state.pass.length > 0) {
+        axios.post('/signUpUser', {
+          firstName: this.state.fName,
+          lastName: this.state.lName,
+          userName: this.state.uName,
+          password: this.state.pass
+        })
+        .then(function (response) {
+          let res = response.data;
+          if(res.result === "access granted!"){
+            localStorage.setItem('jswtoken', res.jwtoken);
+            this.props.setParentUser(res.userName);
+            this.props.setParentName([this.fName,this.lName]);
+            this.setState({
+              redirect: true
+            })
+          }
+        }.bind(this))
+        .catch(function (error) {
+          console.log(error);
+        });
+      }
     };
 
     togglePasswordVisiblity = () => {

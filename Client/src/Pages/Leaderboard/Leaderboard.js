@@ -11,7 +11,7 @@ export default function Leaderboard(props) {
     axios.get('/top')
     .then(function (response) {
       setHighScoreList(parseRankName(response.data));
-      setHSTitle(["highscores","Top 100 Leaderboard (All Time)","#","Name","WPM"]);
+      setHSTitle(["highscores","Top 100 Leaderboard","#","Name","WPM"]);
     })
     .catch(function (error) {
       console.log(error);

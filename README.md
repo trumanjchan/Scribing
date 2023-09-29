@@ -5,7 +5,7 @@
   * Multiplayer
   * Leaderboard shows all players' best WPM
   * Your Past 10 Matches shows logged-in user's past 10 matches
-  * Profile view shows all of logged-in user's past matches, full name, in-game-name, and fastest WPM.
+  * Profile view shows all of logged-in user's past matches, full name, in-game-name, and fastest WPM
 
 ### Run This Program Locally
 1. `yarn install`
@@ -20,3 +20,5 @@ Scribing is a website application similar to 10fastfingers where users can test 
 [Shivanshu Gupta](https://www.linkedin.com/in/shiv248/) and [Truman Chan](https://www.linkedin.com/in/trumanjfchan/) created this web app for their University of California, Merced Full Stack Computing final course project back in Fall 2021.
 
 It was done with the power of NodeJS in React leveraging statefullness and hooks for the frontend, served on an Express + Socket.io backend, connected to a FreeDB mySQL network relational database, and hosted on Fly.io.
+
+Where it all began: https://github.com/shiv248/TypeRacer

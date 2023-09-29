@@ -1,6 +1,8 @@
 .env
 .DS_Store
 node_modules
+package-lock.json
 Client/.DS_Store
 Client/node_modules
 Client/build
+Client/package-lock.json
