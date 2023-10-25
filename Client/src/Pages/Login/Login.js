@@ -29,21 +29,25 @@ class Login extends React.Component {
     return temp;
   }
 
-  handleChange(event) {
-      const target = event.target;
+  handleChange = (e) => {
+      const target = e.target;
       const value = target.value;
       const object = target.name;
       this.setState(
         {
           [object]: object === "pass" ? this.hashMe(value) : value,
+
         }
       );
     }
 
 
-  handleSubmit(event) {
-    console.log(this.state.uName);
-    console.log(this.state.pass);
+  handleSubmit = (e) => {
+    e.preventDefault();
+
+    console.log(this.state.uName.length)
+    console.log(document.getElementById("typedpass").value.length)
+    if (this.state.uName.length !== 0 && document.getElementById("typedpass").value.length !== 0) {  //typed username and typed password lengths are not undefined
       axios.post('/loginUser', {
         userName: this.state.uName,
         password: this.state.pass
@@ -57,14 +61,17 @@ class Login extends React.Component {
           this.setState({
             redirect: true
           })
-        }else{
-          window.location.reload();
+        } else {
+          document.getElementById("requiredmsg").innerHTML = "Username (" + this.state.uName + ") and Password do not match."
         }
       }.bind(this))
       .catch(function (error) {
         console.log(error);
       });
-      event.preventDefault();
+    } else {
+      console.log("Failed to log in")
+      document.getElementById("requiredmsg").innerHTML = "Please enter a Username and Password."
+    }
   };
 
 
@@ -75,7 +82,6 @@ class Login extends React.Component {
         }
       )
   }
-
     render() {
       if(this.state.redirect){
         return <Navigate
@@ -86,16 +92,19 @@ class Login extends React.Component {
         return (
             <div className="Login">
                 <Navbar />
-                <div className="form-container">
-                    <h1>Log In</h1>
-                    <form className="grid" onSubmit={this.handleSubmit}>
-                        <label>Username:</label>
-                        <input name="uName" type="text" value={this.state.uName} onChange={this.handleChange} />
-                        <label>Password:</label>
-                          <input name="pass" type={this.state.visiblity} value={this.state.value} onChange={this.handleChange} />
-                        <input type="checkbox" onClick={this.togglePasswordVisiblity} />
-                        <input type="submit" value="Submit" />
-                    </form>
+                <div className="login-container">
+                  <div className="form-container">
+                      <h1>Login</h1>
+                      <form className="grid" onSubmit={this.handleSubmit}>
+                          <label>Username:</label>
+                          <input name="uName" type="text" value={this.state.uName} onChange={this.handleChange} />
+                          <label>Password:</label>
+                          <input id='typedpass' name="pass" type={this.state.visiblity} value={this.state.value} onChange={this.handleChange} />
+                          <input type="checkbox" onClick={this.togglePasswordVisiblity} />
+                          <input type="submit" value="Submit" />
+                      </form>
+                      <p id='requiredmsg'></p>
+                  </div>
                 </div>
             </div>
         );

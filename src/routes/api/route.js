@@ -64,33 +64,46 @@ module.exports = function(app) {
         console.log(err);
       }
 
-      let pass1 = result[0].password;
-      console.log(pass1);
-      for(i=65; i++; i<=90) {
-        console.log(i);
-        hash.reset();
-        let temp = attemptPass + String.fromCharCode(i);
-        hash.update(temp);
-        let temp2 = hash.digest('hex');
-        hash.reset();
-        console.log(i);
-        if(temp2 === pass1){
-          console.log("logged in user " + username);
-          var token = jwt.sign({
-            verfiedUser: username
-          }, process.env.SECRET, { expiresIn: '1d' });
+      console.log(result[0] !== undefined)
+      console.log(username.length !== 0)
+      console.log(attemptPass.length !== 0)
+      if (result[0] !== undefined && username.length !== 0 && attemptPass.length !== 0) {  //username exists in the database and typed username and typed password are not undefined
+        let pass1 = result[0].password;
+        console.log(pass1);
 
-          res.send({result: "access granted!",
-            userName: username,
-            jwtoken: token
-          });
+        for (i=65; i++; i<=90) {
+          console.log(i);
+          hash.reset();
+          let temp = attemptPass + String.fromCharCode(i);
+          hash.update(temp);
+          let temp2 = hash.digest('hex');
+          hash.reset();
+          console.log(i);
+          if (temp2 === pass1){
+            console.log("logged in user " + username);
+            var token = jwt.sign({
+              verfiedUser: username
+            }, process.env.SECRET, { expiresIn: '1d' });
 
-          return;
+            res.send({result: "access granted!",
+              userName: username,
+              jwtoken: token
+            });
+
+            return;
+          }
+
+          console.log("end of for loop");
+          if (i === 100) {
+            console.log("correct username but incorrect password");
+            res.send({reset: "access denied"});
+            break;
+          }
         }
-        console.log("end of for loop");
+      } else {
+        console.log("incorrect username and password");
+        res.send({reset: "access denied"});
       }
-      console.log("incorrect password");
-      res.send({reset: "access denied"});
     });
   });
 
