@@ -1,7 +1,7 @@
 import './Navbar.css';
 import React, { useEffect, useMemo, useState, useRef } from "react";
 import { Link } from 'react-router-dom';
-import Logo from '../../Images/Character_Typing.gif';
+import logoGif from '../../Images/beam-a-person-is-typing-on-a-laptop.gif';
 
 function Navbar(props) {
   const [fName, setFirstName] = useState(null);
@@ -18,7 +18,7 @@ function Navbar(props) {
     return (
       <div className="Navbar">
         <div className='branding'>
-          <img src={ Logo } alt="Character Typing"/>
+          <img src={ logoGif } alt="Illustration by Vera Erm from Ouch!"/>
         </div>
 
         <ul>
@@ -40,7 +40,7 @@ function Navbar(props) {
     return (
       <div className="Navbar">
         <div className='branding'>
-          <img src={ Logo } alt="Character Typing"/>
+          <img src={ logoGif } alt="Illustration by Vera Erm from Ouch!"/>
         </div>
 
         <ul>

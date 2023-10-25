@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState, useRef } from "react";
 import './WordsPerMin.css';
+import reloadImg from '../../Images/icons8-reload-turn-arrow-function-to-spin-and-restart-24.png';
 
 var moment = require('moment');
 const axios = require('axios');
@@ -16,23 +17,7 @@ export default function WordsPerMin(props) {
   const [wpm, setWpm] = useState(0);
   const [test, setTest] = useState("");
   const [gameOver, setGameOver] = useState(false);
-  const searchInput = useRef(null);
   const [attemptReady, setAttemptReady] = useState(true);
-
-  const parts = useMemo(() => {
-    const splitTextToType = textToType.split("");
-    let endIndexMatch = 0;
-    for (const [index, s] of splitTextToType.entries()) { //for loop to find what the last index of the correctly typed word is
-      if (s !== typedText[index]) {
-        endIndexMatch = index;
-        break;
-      }
-    }
-    return {
-      matchedPart: textToType.slice(0, endIndexMatch),
-      unmatchedPart: textToType.slice(endIndexMatch)
-    }
-  }, [typedText]);
 
   useEffect(() => {
     let interval = null;
@@ -40,35 +25,13 @@ export default function WordsPerMin(props) {
       interval = setInterval(() => {
         setTime(prevTime => prevTime + 10);
       }, 10);
+      // document.querySelector(".fullsentence").innerHTML.length
     }
     else {
       clearInterval(interval);
     }
     return () => clearInterval(interval);
   }, [timerOn]);
-
-  function handleFocus() {
-    setTimeout(function() {
-      searchInput.current.focus();
-    }, 1);
-  }
-
-  const start = () => {
-    setAttemptReady(false);
-    setTimeOn(true);
-    handleFocus();
-    setTest("");
-    setGameOver(false);
-  };
-
-  const restart = () => {
-    props.setUsersPercent(0);
-    setAttemptReady(true);
-    setTimeOn(false);
-    setTime(0);
-    setTypedText("");
-    setWpm(0);
-  };
 
   useEffect(() => {
     if ( !(test.split() == textToType.split() && test.split(" ").length == textToType.split(" ").length) ) {
@@ -78,18 +41,6 @@ export default function WordsPerMin(props) {
       setTest(typedText);
     }
   }, [parts, textToType, time]);
-
-  function checkIfTheSame(concatTest) {
-    let temp = [];
-    for (let i = 0; i < test.length; i++) {
-      temp += textToType[i];
-    }
-
-    //console.log("temp: " + temp + " concatTest: " + concatTest.join(""));
-    if (temp == concatTest.join("")) {
-      props.setUsersPercent(Math.floor(100 * (temp.length / textToType.length)));
-    }
-  }
 
   useEffect(() => {
     /* Multiplayer tab */
@@ -111,25 +62,68 @@ export default function WordsPerMin(props) {
     }
   }, [test]);
 
-  function newScorePost() {
-    props.setScore(wpm)
+  function startMatch() {
+    if (document.getElementById("typingfieldinput").value.length > 0) {
+      start();
+    }
+  }
+
+  const start = () => {
+    setAttemptReady(false);
+    setTimeOn(true);
+    setTest("");
+    setGameOver(false);
   };
+
+  const restart = () => {
+    props.setUsersPercent(0);
+    setAttemptReady(true);
+    setTimeOn(false);
+    setTime(0);
+    setTypedText("");
+    setGameOver(false);
+    setWpm(0);
+  };
+
+  const parts = useMemo(() => {
+    const splitTextToType = textToType.split("");
+    let endIndexMatch = 0;
+    for (const [index, s] of splitTextToType.entries()) { //for loop to find what the last index of the correctly typed word is
+      if (s !== typedText[index]) {
+        endIndexMatch = index;
+        break;
+      }
+    }
+    return {
+      matchedPart: textToType.slice(0, endIndexMatch),
+      unmatchedPart: textToType.slice(endIndexMatch)
+    }
+  }, [typedText]);
+
+  function checkIfTheSame(concatTest) {
+    let temp = [];
+    for (let i = 0; i < test.length; i++) {
+      temp += textToType[i];
+    }
+
+    //console.log("temp: " + temp + " concatTest: " + concatTest.join(""));
+    if (temp == concatTest.join("")) {
+      props.setUsersPercent(Math.floor(100 * (temp.length / textToType.length)));
+    }
+  }
 
   const disablePaste = (e) => {
     e.preventDefault();
+  };
+
+  function newScorePost() {
+    props.setScore(wpm)
   };
 
   if (parts.unmatchedPart.length >= 0) {
     return (
       <div className="WPM">
         <div className="maincontainer">
-          <div className="clockandbutton">
-            <div className="clock">
-              <div className="inline">{("0" + Math.floor((time / 1000) % 60)).slice(-2)}:</div>
-              <div className="inline">{("0" + Math.floor((time / 100) % 60)).slice(-2)}</div>
-            </div>
-            {attemptReady ? <button onClick={start}>Start</button> : <button onClick={restart}>Restart</button>}
-          </div>
 
           <div className="display">
             <div className="scrambledsentence">
@@ -138,15 +132,20 @@ export default function WordsPerMin(props) {
             </div>
           </div>
 
-          {!timerOn ? <div className="typingspeedinfo">Your words per minute is <b>{wpm}</b></div> : <div className="typingfield">
-            <input
+          <div className="typingfield">
+            <input id="typingfieldinput"
               onPaste={disablePaste}
-              ref={searchInput}
               disabled={gameOver}
               value={typedText}
-              onChange={(e) => setTypedText(e.target.value)}
-            /></div>}
-          {timerOn ? <div className="typingspeedinfo">Your current WPM: <b>{wpm}</b></div> : null}
+              onChange={(e) => { startMatch(); setTypedText(e.target.value); }}
+            />
+          </div>
+
+          <div className="flex-cols">
+            {timerOn ? <div>Your current WPM: <b>{wpm}</b></div> : null}
+            {!timerOn ? <div>Your words per minute is <b>{wpm}</b></div> : null}
+            <img onClick={restart} src={ reloadImg } alt="Reload turn arrow function to spin and restart icon by Icons8" />
+          </div>
 
           <div className="fullsentence"><i>{chosentext}</i></div>
         </div>

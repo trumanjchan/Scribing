@@ -6,28 +6,6 @@
     margin: 4% auto;
 }
 
-.WPM .maincontainer .clockandbutton {
-    width: fit-content;
-}
-.WPM .maincontainer .clockandbutton .clock {
-    display: flex;
-    justify-content: center;
-    background-color: red;
-    color: white;
-    width: 100%;
-    font-size: 20px;
-}
-.WPM .maincontainer .clockandbutton .clock .inline {
-    display: inline;
-}
-.WPM .maincontainer .clockandbutton button {
-    font-size: 20px;
-    background-color: rgb(103, 255, 129);
-    font-weight: bold;
-    width: 100%;
-    border: 2px solid black;
-}
-
 .WPM .maincontainer .display {
     border: 1px solid;
     margin: 1% 0%;
@@ -48,18 +26,29 @@
     background-color: white;
 }
 
-.WPM .maincontainer .typingspeedinfo {
-    margin-top: 1%;
-}
 .WPM .maincontainer .typingfield {
     display: flex;
 }
-.WPM .maincontainer .typingfield input {
+.WPM .maincontainer .typingfield #typingfieldinput {
     flex: auto;
     border: 5px solid #FFC400;
     font-size: 25px;
     letter-spacing: 2px;
     width: 100%;
+}
+
+.WPM .maincontainer .flex-cols {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 1%;
+}
+.WPM .maincontainer .flex-cols img {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    background-color: #279de0;
+    padding: 0.5%;
 }
 
 .WPM .maincontainer .fullsentence {
