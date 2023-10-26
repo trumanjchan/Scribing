@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import './Profile.css';
 import Navbar from '../../Components/Navbar/Navbar';
-import MIME from '../../Images/Mime.png';
+import dratiniImg from '../../Images/icons8-dratini-100.png';
 import TableMaker from '../../Components/TableMaker/TableMaker';
 const axios = require('axios');
 
@@ -19,7 +19,7 @@ export default function Profile(props) {
   const parts = useMemo(() => {
     getUserInfo(URLParams.id);
     setUserName(URLParams.id);
-    setProfileMatchTitle(["highscores","Match History (All Time)","Match Date","Match Time","WPM"]);
+    setProfileMatchTitle(["highscores", "Match History", "(Reverse Chronological)", "Match Date", "Match Time", "WPM"]);
   }, []);
 
   useEffect(() => {
@@ -66,12 +66,12 @@ export default function Profile(props) {
         <div className="display">
           <div className='profileinfo'>
             <div className='picture'>
-              <img alt="Mime" src={MIME}/>
+              <img alt="Dratini icon by Icons8" src={dratiniImg}/>
             </div>
             <div className='info'>
               <div>Name: {fName + " " + lName}</div>
-              <div>Display name: {uName}</div>
-              <div>Highest WPM: {topWPM}</div>
+              <div>Username: {uName}</div>
+              <div>Best WPM: {topWPM}</div>
             </div>
           </div>
           <TableMaker data={profileMatches} title={profileMatchTitle}/>

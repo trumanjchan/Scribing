@@ -6,7 +6,6 @@ var jwt = require('jsonwebtoken');
 module.exports = function(app) {
 
   app.get('/top', function(req, res) {
-    
     db.query("SELECT DISTINCT scores.firstName, scores.lastName, MAX(scores.score) as score FROM freedb_scribingdb.scores scores JOIN freedb_scribingdb.users users ON (scores.firstName = users.firstName) GROUP BY firstName, lastName ORDER BY MAX(score) DESC", (err,result)=>{
       if(err) {
         console.log(err);
@@ -18,7 +17,7 @@ module.exports = function(app) {
   app.get('/user', function(req, res) {
     let user = req.query.user;
 
-    db.query("SELECT scores.firstName, scores.lastName, scores.matchDate, scores.matchTime, scores.score FROM freedb_scribingdb.scores scores, freedb_scribingdb.users users WHERE users.firstName = scores.firstName AND users.userName = '" + user + "' ORDER BY matchDate DESC", (err,result)=>{
+    db.query("SELECT scores.firstName, scores.lastName, scores.matchDate, scores.matchTime, scores.score FROM freedb_scribingdb.scores scores, freedb_scribingdb.users users WHERE users.firstName = scores.firstName AND users.userName = '" + user + "' ORDER BY scores.matchDate DESC, scores.matchTime DESC", (err,result)=>{
       if(err) {
         console.log(err);
       }
@@ -30,7 +29,7 @@ module.exports = function(app) {
     let user = req.query.user;
     console.log("req.query.user: " + user);
 
-    db.query("SELECT scores.matchDate, scores.matchTime, scores.score FROM freedb_scribingdb.scores scores, freedb_scribingdb.users users WHERE users.firstName = scores.firstName AND users.userName = '" + user + "' ORDER BY matchDate DESC LIMIT 10", (err,result)=>{
+    db.query("SELECT scores.matchDate, scores.matchTime, scores.score FROM freedb_scribingdb.scores scores, freedb_scribingdb.users users WHERE users.firstName = scores.firstName AND users.userName = '" + user + "' ORDER BY scores.matchDate DESC, scores.matchTime DESC LIMIT 10", (err,result)=>{
       if(err) {
         console.log(err);
       }
@@ -41,9 +40,8 @@ module.exports = function(app) {
   app.post('/newScore', function(req, res) {
     const username = req.body.userName;
     const score = req.body.score;
-    const rightnow = new Date();
-    const date = rightnow.toLocaleDateString("en-US");
-    const time = rightnow.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+    const date = req.body.date;
+    const time = req.body.time;
 
     db.query("INSERT INTO freedb_scribingdb.scores (firstName, lastName, matchDate, matchTime, score) VALUES ((SELECT firstName from freedb_scribingdb.users WHERE userName = '" + username + "'), (SELECT lastName from freedb_scribingdb.users WHERE userName = '" + username + "'), '" + date + "', '" + time + "', '" + score + "')", (err,result)=>{
       if(err) {

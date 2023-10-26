@@ -21,14 +21,13 @@
     overflow: auto;
 }
 .Leaderboard-container .display .highscores h1 {
-    padding: 3%;
-    margin: 0 auto;
+    padding: 0% 3%;
+    margin: 5% auto;
     width: fit-content;
 }
 .Leaderboard-container .display .highscores .scores {
-    margin: 0 auto;
+    margin: 0 auto 1% auto;
     width: 80%;
-    height: 100%;
 }
 .Leaderboard-container .display .highscores .scores table {
     border-collapse: collapse;

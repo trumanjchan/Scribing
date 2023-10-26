@@ -97,7 +97,8 @@ class Signup extends React.Component {
           return (
               <div className="Signup">
                   <Navbar />
-                  <div className="form-container">
+                  <div className="signup-container">
+                    <div className="form-container">
                       <h1>Sign Up</h1>
                       <form className="grid" onSubmit={this.handleSubmit}>
                           <label>First Name:</label>
@@ -111,6 +112,8 @@ class Signup extends React.Component {
                           <input type="checkbox" onClick={this.togglePasswordVisiblity} />
                           <input type="submit" value="Submit" />
                       </form>
+                      <p id='requiredmsg'></p>
+                    </div>
                   </div>
               </div>
           );

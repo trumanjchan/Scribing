@@ -10,7 +10,8 @@ function Navbar(props) {
     setFirstName(props.fName);
   }, [props.fName]);
 
-  const refreshPage = () => {
+  const userLogOut = () => {
+    document.getElementById("logoGif").click();
     window.location.reload();
   };
 
@@ -18,7 +19,7 @@ function Navbar(props) {
     return (
       <div className="Navbar">
         <div className='branding'>
-          <img src={ logoGif } alt="Illustration by Vera Erm from Ouch!"/>
+          <Link id='logoGif' to="/"><img src={ logoGif } alt="Illustration by Vera Erm from Ouch!"/></Link>
         </div>
 
         <ul>
@@ -30,7 +31,7 @@ function Navbar(props) {
         <div className="userinfo">
           <div className="welcome">Welcome, <Link to={"/profile/" + fName}>{fName}</Link>!</div> 
           <div className="logoutcontainer">
-            <button onClick={refreshPage}>Log out</button>
+            <button onClick={userLogOut}>Log out</button>
           </div>
         </div>
       </div>
@@ -40,7 +41,7 @@ function Navbar(props) {
     return (
       <div className="Navbar">
         <div className='branding'>
-          <img src={ logoGif } alt="Illustration by Vera Erm from Ouch!"/>
+          <Link id='logoGif' to="/"><img src={ logoGif } alt="Illustration by Vera Erm from Ouch!"/></Link>
         </div>
 
         <ul>

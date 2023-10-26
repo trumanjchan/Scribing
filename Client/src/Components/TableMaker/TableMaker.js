@@ -27,7 +27,7 @@ class TableMaker extends React.Component {
 
   createTitle(){
     let temp = []
-    for(var i = 2; i < this.state.title.length; i++){
+    for(var i = 3; i < this.state.title.length; i++){
       temp.push(<th>{this.state.title[i]}</th>)
     }
     return temp;
@@ -54,6 +54,7 @@ class TableMaker extends React.Component {
       return(
         <div className={this.state.title[0]}>
           <h1>{this.state.title[1]}</h1>
+          {this.state.title[2] !== null ? <h3>{this.state.title[2]}</h3> : null}
           <div className='scores'>
             <table>
               <tr>
