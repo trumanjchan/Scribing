@@ -1,33 +1,47 @@
 const chalk = require("chalk")
 const port = process.env.PORT || 5050;
-//const formatMessage = require('./utils/messages');
-const {
-  userJoin,
-  getCurrentUser,
-  userLeave,
-  getRoomUsers
-} = require('./utils/users');
-
+let players = [];
 
 module.exports = function(io) {
 
   io.on("connection", (socket) => {
     console.log("New client connected");
-    socket.on('joinRoom', ([username, room]) => {
-      const user = userJoin(socket.id, username, room);
-      console.log(user);
-      socket.join(user.room);
+
+    socket.on('joinRoom', ([propsParentUser, registeredUser]) => {
+      console.log("propsParentUser: " + propsParentUser + ", registeredUser: " + registeredUser)
+      let clientInfo = new Object();
+      clientInfo.clientId = socket.id;
+      clientInfo.propsUsername = propsParentUser
+      clientInfo.username = registeredUser
+      clientInfo.percent = 0
+      players.push(clientInfo)
+      console.log(players)
+
+      socket.emit('updateClientCurrentPlayers', players);
     });
 
-    socket.on('chatMessage', msg => {
-      const user = getCurrentUser(socket.id);
-      console.log(user, msg);
-      socket.to(user.room).emit('message', [user.username, msg]);
+    socket.on('clientTypedMsg', ([registeredUser, usersPercent]) => {
+      let propsParentUser = undefined
+
+      for (let i = 0; i < players.length; i++) {
+        if (players[i].username === registeredUser) {
+          players[i].percent = usersPercent
+          propsParentUser = players[i].propsUsername
+        }
+      }
+      socket.emit('updateClientCurrentPlayers', players);
+      console.log(players)
+
+      socket.emit('typing', {propsParentUser, registeredUser, usersPercent, players});
     });
 
     socket.on('disconnect', () => {
-      const user = userLeave(socket.id);
-      console.log("Client has Disconnected");
+      players = players.filter(person => person.clientId != socket.id)
+
+      console.log(socket.id + " removed from players")
+      console.log(players)
+
+      socket.emit('updateClientCurrentPlayers', players);
     });
   });
 

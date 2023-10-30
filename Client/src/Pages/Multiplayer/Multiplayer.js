@@ -1,71 +1,54 @@
-import React, { useEffect, useMemo, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from '../../Components/Navbar/Navbar';
-import socketIOClient from "socket.io-client";
 import WordsPerMin from '../../Components/WordsPerMin/WordsPerMin.js';
 import LoadingBar from '../../Components/LoadingBar/LoadingBar.js';
-import {socket} from "../../services.js";
+import { socket } from "../../services.js";
 import './Multiplayer.css';
 
 export default function Multiplayer(props) {
   const [usersPercent, setUsersPercent] = useState(0);
   const [score, setScore] = useState(0);
   const [registeredUser, setUser] = useState("user" + getRandomInt(100));
-  const [playerResponse, setPlayerResponse] = useState([]);
   const [currentPlayers, setCurrentPlayers] = useState([]);
-  const [amountPlayers, setAmountPlayers] = useState(0);
 
   useEffect(() => {
-    setUser(props.parentUser);
-  }, [props]);
-
-  useEffect(() => {
-    socket.emit('joinRoom', [registeredUser, 1 ]);
+    let propsParentUser = props.parentUser
+    socket.emit('joinRoom', [propsParentUser, registeredUser]);
   }, []);
 
   useEffect(() => {
-    socket.on('message', (message) => {
-      if (!exists(currentPlayers, message[0])) {
-        var temp = currentPlayers;
-        temp.push(message);
-        setCurrentPlayers(temp);
-        setAmountPlayers(temp.length);
-      }
-      else {
-        var temp = currentPlayers.length;
-        for (var k = 0; k < temp; k++) {
-          if (currentPlayers[k][0] == message[0]) {
-            currentPlayers[k][1] = message[1];
-          }
+    socket.on('updateClientCurrentPlayers', (players) => {
+      setCurrentPlayers(players);
+      console.log("currentPlayers array has been updated");
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log("initiate clientTypedMsg")
+    socket.emit('clientTypedMsg', [registeredUser, usersPercent]);
+
+    socket.on('typing', (typerInfo) => {
+      console.log("typerInfo.propsParentUser: " + typerInfo.propsParentUser + ", typerInfo.registeredUser: " + typerInfo.registeredUser + ", typerInfo.usersPercent: " + typerInfo.usersPercent)
+      console.log(typerInfo.players)
+
+      for (let i = 0; i < typerInfo.players.length; i++) {
+        if (typerInfo.players[i].registeredUser === registeredUser) {
+          currentPlayers[i].username = typerInfo.players[i].username
         }
       }
-      console.log(currentPlayers);
     });
-    socket.emit('chatMessage', usersPercent);
   }, [usersPercent]);
-
-  function exists(arr, search) {
-    return arr.some(row => row.includes(search));
-  }
 
   function getRandomInt(max) {
     return Math.floor(Math.random() * max);
   }
 
-  useEffect(() => {
-    var temp = 0;
-    if (currentPlayers.length > temp) {
-      temp = currentPlayers.length;
-      console.log("new player");
-      console.log(currentPlayers);
-      console.log(currentPlayers.length);
-    }
-  }, [currentPlayers]);
-
-
   function getLoadingBars() {
     let temp = [];
-    for (var i = 0; i < amountPlayers; i++) {
-      temp.push(<LoadingBar userName={currentPlayers[i][0]} loadingData={currentPlayers[i][1]}/>)
+    console.log("currentPlayers: " + currentPlayers)
+    console.log("currentPlayers.length: " + currentPlayers.length)
+    for (let i = 0; i < currentPlayers.length; i++) {
+      temp.push(<LoadingBar userName={currentPlayers[i].username} loadingData={currentPlayers[i].percent}/>)
     }
     return temp;
   }
@@ -75,8 +58,6 @@ export default function Multiplayer(props) {
       <Navbar fName={props.parentUser}/>
       <div className="Multiplayer-container">
         {getLoadingBars()}
-        <h3> You </h3>
-        <LoadingBar userName={registeredUser} loadingData={usersPercent}/>
         <WordsPerMin setScore={setScore} setUsersPercent={setUsersPercent}/>
       </div>
     </div>
